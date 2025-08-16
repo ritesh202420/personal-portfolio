@@ -1,192 +1,205 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Portfolio of Your Name — developer and designer. View projects, skills, and contact info.">
-  <title>My Portfolio</title>
-  <link rel="icon" href="assets/favicon.ico">
-
-  <style>
-    :root {
-      --bg: #f7f7fb;
-      --card: #fff;
-      --text: #111;
-      --accent: #2563eb;
-    }
-    :root.dark {
-      --bg: #0b1020;
-      --card: #071027;
-      --text: #ddd;
-    }
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
+        font-family: 'Arial', sans-serif;
+        color: white;
+        background: linear-gradient(-45deg, #ff6b6b, #f8e71c, #6a11cb, #2575fc);
+        background-size: 400% 400%;
+        animation: gradientBG 12s ease infinite;
+        line-height: 1.6;
+        scroll-behavior: smooth;
     }
-    .container { max-width: 980px; margin: 0 auto; padding: 1rem; }
-
-    .site-header {
-      background: linear-gradient(90deg, rgba(255,255,255,.6), rgba(255,255,255,.3));
-      backdrop-filter: blur(6px);
-      position: sticky; top: 0; z-index: 10;
+    @keyframes gradientBG {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
     }
-    .site-header .container {
-      display: flex; align-items: center; gap: 1rem;
+    nav {
+        position: sticky; top: 0; background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px); padding: 10px 0; text-align: center; z-index: 1000;
     }
-    .logo { margin: 0; font-size: 1.25rem; }
-    nav { margin-left: auto; display: flex; gap: 0.75rem; }
     nav a {
-      color: inherit; text-decoration: none; padding: 0.25rem 0.5rem; border-radius: 6px;
+        color: white; text-decoration: none; margin: 0 15px;
+        font-weight: bold; position: relative; padding-bottom: 5px; transition: color 0.3s ease;
     }
-    nav a:hover, nav a[aria-current="page"] {
-      background: var(--accent); color: #fff;
+    nav a::after {
+        content: ""; position: absolute; left: 0; bottom: 0; width: 0%;
+        height: 2px; background: yellow; box-shadow: 0 0 10px yellow; transition: width 0.3s ease;
     }
+    nav a:hover { color: yellow; }
+    nav a:hover::after { width: 100%; }
+    header { text-align: center; padding: 50px 20px; }
+    .profile-img {
+        width: 150px; height: 150px; border-radius: 50%;
+        border: 3px solid rgb(0, 255, 102); box-shadow: 0 0 15px yellow;
+        object-fit: cover; margin-bottom: 20px; animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .typing {
+        font-size: 2.5rem; font-weight: bold; border-right: 3px solid yellow;
+        white-space: nowrap; overflow: hidden; width: 0; display: inline-block;
+        animation: typing 3s steps(20, end) forwards, blink 0.7s infinite;
+    }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink { 50% { border-color: transparent } }
+    header p { font-size: 1.2rem; opacity: 0.8; }
+    .section { max-width: 900px; margin: auto; padding: 40px 20px; }
+    h2 { margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.3); display: inline-block; }
 
-    .card {
-      background: var(--card);
-      padding: 1rem;
-      margin: 1rem 0;
-      border: 1.5px solid rgb(0, 0, 0);
-      box-shadow: 0 6px 18px rgba(20, 50, 20, 0.06);
+ 
+    .skill-card, .project-card {
+        opacity: 0; transform: translateY(20px);
+        transition: transform 0.6s ease, opacity 0.6s ease;
     }
-    .avatar {
-      width: clamp(64px, 15vw, 96px);
-      height: auto;
-      border: 1.5px solid black;
-      object-fit: cover;
-    }
-    .card > div { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .show-card { opacity: 1; transform: translateY(0); }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      border-color: #666666;
+   
+    .skills-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .skill-card {
+        background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px;
+        text-align: center; width: 120px; transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .grid article {
-      background: var(--card);
-      padding: 1rem;
-      border: 1.5px solid black;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
-      transition: transform 0.2s;
+    .skill-card img {
+        width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.211); border-radius: 50%; padding: 10px;
+        box-shadow: 0 0 10px rgb(0, 149, 255); transition: transform 0.3s ease;
     }
-    .grid article:hover {
-      transform: translateY(-3px);
-    }
+    .skill-card img:hover { transform: scale(1.1) rotate(5deg); }
+    .skill-card:hover { transform: translateY(-5px); box-shadow: 0 0 15px rgb(0, 17, 255); }
 
-    button {
-      background: var(--accent);
-      color: white;
-      border: 0;
-      padding: .5rem 0.75rem;
-      border: 1.5px solid black;
-      border-color: #111;
-      cursor: pointer;
+ 
+    .project-card {
+        background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;
+        margin-bottom: 20px; position: relative; overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    button:hover {
-      opacity: 0.9;
+    .project-card::after {
+        content: ""; position: absolute; left: 0; bottom: 0; width: 0%;
+        height: 3px; background: yellow; box-shadow: 0 0 10px yellow; transition: width 0.3s ease;
     }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .project-card:hover::after { width: 100%; }
+    footer { text-align: center; padding: 20px; opacity: 0.7; font-size: 0.9rem; }
 
-    
-    .site-footer {
-      padding: 1rem;
-      text-align: center;
-      color: #666;
+    @media (max-width: 600px) {
+        .typing { font-size: 2rem; }
+        header p { font-size: 1rem; }
     }
-  </style>
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1 class="logo">personal portfolio</h1>
-      <nav role="navigation">
-        <a href="#about" aria-current="page">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+<nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<header>
+    <img src="/riteshhhhhhh.jpg" alt="Ritesh Yadav" class="profile-img">
+    <h1 class="typing">Ritesh Yadav</h1>
+    <P>“I am pursuing a B.Sc. in Computer Science at Thakur Shyamnarayan Degree College (2024–2027)</P>
+</header>
+
+<div class="section about" id="about">
+    <h2>About Me</h2>
+    <p><div>
+  <p>Hello! I’m Ritesh, a Computer Science student (2024–2027) at Thakur Shyamnarayan Degree College. I’m passionate about learning new technologies, exploring programming, and building projects that improve my skills and knowledge.</p>
+</div>
+</p>
+
+</div>
+
+<div class="section skills" id="skills">
+    <h2>Skills</h2>
+    <div class="skills-container">
+        <div class="skill-card"><img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" alt="HTML"><p>HTML</p></div>
+        <div class="skill-card"><img src="https://cdn-icons-png.flaticon.com/512/732/732190.png" alt="CSS"><p>CSS</p></div>
+        <div class="skill-card"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="JavaScript"><p>JavaScript</p></div>
+        <div class="skill-card"><img src="https://logos-world.net/wp-content/uploads/2022/07/Java-Logo.png" alt="Java"><p>Java</p></div>
+        <div class="skill-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png" alt="React"><p>React</p></div>
     </div>
-  </header>
+</div>
 
-  <main class="container">
-    <section id="about" class="card">
-      <img src="https://img.goodfon.com/wallpaper/big/e/99/hacker-hood-code-programming.webp" alt="Profile" class="avatar">
-      <div>
-        <h2>About Me</h2>
-        <p>Enter your bio.</p>
-      </div>
-    </section>
+<div class="section projects" id="projects">
+    <h1>Projects</h1>
+    <div class="project-card">
+        <h2>Login page </h2>
+        <p>This project is a modern, responsive login page built using HTML and CSS. It features a gradient background, animated border effects, and smooth fade-in animations to create a visually appealing user interface. The layout is centered vertically and horizontally, making it suitable for web and mobile views.</p>
+    </div>
+    <div class="project-card">
+        <h2>Portfolio Website</h2>
+        <p>A personal portfolio with a modern gradient animation and responsive design.</p>
+    </div>
+    <div class="project-card">
+        <h2><b>QR Code Generator</b></h2>
+        <p>The QR Code Generator  to create QR codes from user-provided data such as text, URLs, contact details, or any other information. This project allows users to quickly encode data into a scannable QR format, which can be read by smartphones, barcode scanners, and QR code reader apps..</p>
+    </div>
+    <div class="project-card">
+      <h2>Text To Voice</h2>
+      <p>The Text-to-Voice Converter is a web-based application that converts written text into spoken words . Built with HTML, CSS, and JavaScript, this project allows users to type or paste text into a text area, choose a voice, and listen to the generated speech.</p>
 
-    <section id="projects" class="card">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article>
-          <h3>Project One</h3>
-          <p>your description.</p>
-          <a href="#">View</a>
-        </article>
-        <article>
-          <h3>Project Two</h3>
-          <p>your  description.</p>
-          <a href="#">View</a>
-        </article>
-      </div>
-    </section>
+    </div>
+    <div class="project-card">
+      <h2>Digital Clock</h2>
+    <p>The Digital Clock project is a simple Python application that displays the current time in hours, minutes, and seconds. It uses the Tkinter library for building the graphical user interface (GUI). The clock updates in real-time, making it function just like a system clock.</p>
+    </div>
+</div>
 
-    <section id="contact" class="card">
-      <h2>Contact</h2>
-      <form id="contactForm">
-        <label for="name">Name</label>
-        <input id="name" type="text" name="name" required>
+<div class="section contact" id="contact">
+    <h2>Contact</h2>
+    <p><a href="yadavritesh53032.gmail.com">Email:yadavritesh53032.gmail.com</a> </p>
+<p><a href="www.linkedin.com/in/ritesh-yadav-7b2b16374">Ritesh Yadav's LinkedIn</a></p>
+<p><a href="https://github.com/ritesh202420">GitHub</a></p>
+<p><a href="https://linktr.ee/ritesh2420">linktr.ee</a></p>
 
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" required>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4"></textarea>
+</div>
 
-        <button type="submit">Send</button>
-      </form>
-      <p id="contactMsg" role="status" aria-live="polite"></p>
-    </section>
-  </main>
+<footer>
+    © 2025 Ritesh Yadav. All rights reserved.
+</footer>
 
-  <footer class="site-footer">
-    <div class="container">© <span id="year"></span>ritesh yadav </div>
-  </footer>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.skill-card, .project-card');
+    const nameTitle = document.querySelector('h1.typing');
 
-  <script>
-    // Set year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Observer for cards
+    const cardObserver = new IntersectionObserver(entries => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('show-card');
+                }, index * 150);
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
 
-    // Theme toggle with persistence
-    const root = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme');
+    cards.forEach(card => cardObserver.observe(card));
 
-    if (savedTheme === 'dark') {
-      root.classList.add('dark');
-      themeToggle.textContent = '☀️';
-    }
+    
+    const nameObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                nameTitle.classList.remove('typing');
+                void nameTitle.offsetWidth; 
+                nameTitle.classList.add('typing');
+            }
+        });
+    }, { threshold: 0.5 });
 
-    themeToggle.addEventListener('click', () => {
-      const isDark = root.classList.toggle('dark');
-      themeToggle.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
+    nameObserver.observe(nameTitle);
+});
+</script>
 
-    // Contact form simulation
-    const form = document.getElementById('contactForm');
-    const msg = document.getElementById('contactMsg');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      msg.textContent = 'Thanks — message simulated (no backend included)';
-      form.reset();
-    });
-  </script>
 </body>
 </html>
